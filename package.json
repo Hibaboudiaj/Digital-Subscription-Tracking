@@ -1,0 +1,33 @@
+{
+  "name": "digital-subscription-tracking",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hibaboudiaj/Digital-Subscription-Tracking.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Hibaboudiaj/Digital-Subscription-Tracking/issues"
+  },
+  "homepage": "https://github.com/Hibaboudiaj/Digital-Subscription-Tracking#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "joi": "^18.0.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.2.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
