@@ -3,8 +3,9 @@ const mongoose = require("mongoose");
 const subscriptionSchema = new mongoose.Schema(
   {
     name: {               // ← هاد السطر مهم يكون Object
-      type: String,       // type لازم يكون String / Number / Boolean / ObjectId
+      type: String,// type لازم يكون String / Number / Boolean / ObjectId
       required: true,
+      trim:true,
     },
     price: {
       type: Number,

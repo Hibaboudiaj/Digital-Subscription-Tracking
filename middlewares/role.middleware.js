@@ -10,4 +10,4 @@ const roleMiddleWare = (allowedRoles) => {
   };
 };
 
-module.exports = roleMiddleWareyes
+module.exports = roleMiddleWare
