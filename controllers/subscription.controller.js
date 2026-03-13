@@ -27,47 +27,48 @@ const getSubscriptions = async (req, res) => {
   }
 };
 // 3️⃣ Get single subscription by id (ownership check)
-const getSubscription = (async = (req, res) => {
+const getSubscription = async (req, res) => {
   try {
     const subscription = await Subscription.findById(req.params.id);
-    if(!subscription){
-      return res.status(404).json({message:"Subscription not found"})
-    }
-    res.status(200).json({subscription})
-  } catch (error) {
-    res.status(400).json({message:error.message})
-  }
-});
-// 4️⃣ Update subscription
-const UpdateSubscription = async (req, res)=>{
-  try {
-    const subscription = await Subscription.findById(req.params.id)
     if (!subscription) {
-      return res.status(404).json({message:"Subscription not found"})
+      return res.status(404).json({ message: "Subscription not found" });
     }
-    const {name, price, billingCycle} = req.body
-    subscription.name = name || subscription.name
-    subscription.price = price || subscription.price
+
+    res.status(200).json({ subscription });
+  
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+// 4️⃣ Update subscription
+const UpdateSubscription = async (req, res) => {
+  try {
+    const subscription = await Subscription.findById(req.params.id);
+    if (!subscription) {
+      return res.status(404).json({ message: "Subscription not found" });
+    }
+    const { name, price, billingCycle } = req.body;
+    subscription.name = name || subscription.name;
+    subscription.price = price || subscription.price;
     subscription.billingCycle = billingCycle || subscription.billingCycle;
 
     await subscription.save();
-    res.status(200).json({subscription});
-
+    res.status(200).json({ subscription });
   } catch (error) {
-    res.status(400).json({message:error.message});
+    res.status(400).json({ message: error.message });
   }
-}
+};
 // 5️⃣ Delete subscription
-const deleteSubscription = async (req, res)=>{
+const deleteSubscription = async (req, res) => {
   try {
-    const subscription = await Subscription.findById(req.params.id)
-    if(!subscription){
-      return res.status(404).json({message : "Subscription not found" })
+    const subscription = await Subscription.findById(req.params.id);
+    if (!subscription) {
+      return res.status(404).json({ message: "Subscription not found" });
     }
-    await subscription.remove()
-    res.status(200).json({message: "Subscription deleted" });
+    await subscription.remove();
+    res.status(200).json({ message: "Subscription deleted" });
   } catch (error) {
-    res.status(400).json({message: error.message});
+    res.status(400).json({ message: error.message });
   }
 };
 
