@@ -1,18 +1,23 @@
 const express = require("express");
 const router = express.Router();
+
+// middleware
 const authMiddleware = require("../middlewares/auth.middleware");
+
+// controllers
 const {
-  createSubscription,
+  CreateSubscription,
   getSubscriptions,
   getSubscription,
-  updateSubscription,
+  UpdateSubscription,
   deleteSubscription,
 } = require("../controllers/subscription.controller");
 
-router.post("/", authMiddleware, createSubscription)
-router.get("/", authMiddleware, getSubscriptions)
-router.get("/:id", authMiddleware, getSubscription)
-router.put("/:id", authMiddleware, updateSubscription)
-router.delete("/:id", authMiddleware, deleteSubscription)
+// routes
+router.post("/", authMiddleware, CreateSubscription);           // ← هاد سطر 12
+router.get("/", authMiddleware, getSubscriptions);
+router.get("/:id", authMiddleware, getSubscription);
+router.put("/:id", authMiddleware, UpdateSubscription);
+router.delete("/:id", authMiddleware, deleteSubscription);
 
-module.exports = router
+module.exports = router;

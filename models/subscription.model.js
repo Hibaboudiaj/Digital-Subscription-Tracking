@@ -1,10 +1,9 @@
-const { string, required } = require("joi");
 const mongoose = require("mongoose");
 
 const subscriptionSchema = new mongoose.Schema(
   {
-    name: {
-      type: string,
+    name: {               // ← هاد السطر مهم يكون Object
+      type: String,       // type لازم يكون String / Number / Boolean / ObjectId
       required: true,
     },
     price: {
@@ -13,7 +12,7 @@ const subscriptionSchema = new mongoose.Schema(
       min: 0.01,
     },
     billingCycle: {
-      type: string,
+      type: String,
       enum: ["monthly", "yearly"],
       required: true,
     },
@@ -23,7 +22,7 @@ const subscriptionSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true }, // createdAt و updatedAt
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("Subscription", subscriptionSchema);
