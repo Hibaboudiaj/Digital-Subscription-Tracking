@@ -10,10 +10,10 @@ const authMiddleware = async (req, res, next) => {
 
     const token = authHeader.split(" ")[1];
 
-    // تحقق من token
+//verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // نجيبو user من DB بدون كلمة السر
+    //without pass
     const user = await User.findById(decoded.id).select("-password");
     if (!user) {
       return res.status(401).json({ message: "User not found" });

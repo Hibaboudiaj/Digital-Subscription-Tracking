@@ -1,11 +1,11 @@
 const Subscription = require("../models/subscription.model");
 
-// 1️⃣ Create subscription
+// Create subscription
 const CreateSubscription = async (req, res) => {
   try {
     const { name, price, billingCycle } = req.body;
 
-    // ✅ Validation بسيطة
+    //Validation 
     if (!name || !price || !billingCycle) {
       return res.status(400).json({ message: "الحقول name, price و billingCycle مطلوبة" });
     }
@@ -20,7 +20,7 @@ const CreateSubscription = async (req, res) => {
       name,
       price,
       billingCycle,
-      userId: req.user._id, // ربط subscription بالمستخدم اللي مسجل الدخول
+      userId: req.user._id, 
     });
 
     res.status(201).json({ subscription });
@@ -29,7 +29,7 @@ const CreateSubscription = async (req, res) => {
   }
 };
 
-// 2️⃣ Get all subscriptions of the logged-in user
+// Get all subscriptions of the logged-in user
 const getSubscriptions = async (req, res) => {
   try {
     const subscriptions = await Subscription.find({ userId: req.user._id });
@@ -39,7 +39,7 @@ const getSubscriptions = async (req, res) => {
   }
 };
 
-// 3️⃣ Get single subscription by id (ownership check)
+// Get single subscription by id (ownership check)
 const getSubscription = async (req, res) => {
   try {
     const subscription = await Subscription.findById(req.params.id);
@@ -47,7 +47,7 @@ const getSubscription = async (req, res) => {
       return res.status(404).json({ message: "Subscription not found" });
     }
 
-    // ✅ Ownership check
+    // Ownership check
     if (subscription.userId.toString() !== req.user._id.toString()) {
       return res.status(403).json({ message: "Non autorisé" });
     }
@@ -58,7 +58,7 @@ const getSubscription = async (req, res) => {
   }
 };
 
-// 4️⃣ Update subscription
+// Update subscription
 const UpdateSubscription = async (req, res) => {
   try {
     const subscription = await Subscription.findById(req.params.id);
@@ -66,14 +66,14 @@ const UpdateSubscription = async (req, res) => {
       return res.status(404).json({ message: "Subscription not found" });
     }
 
-    // ✅ Ownership check
+    // Ownership check
     if (subscription.userId.toString() !== req.user._id.toString()) {
       return res.status(403).json({ message: "Non autorisé" });
     }
 
     const { name, price, billingCycle } = req.body;
 
-    // ✅ Validation بسيطة
+    // Validation 
     if (price !== undefined && price <= 0) {
       return res.status(400).json({ message: "Price يجب أن يكون أكبر من 0" });
     }
@@ -92,7 +92,7 @@ const UpdateSubscription = async (req, res) => {
   }
 };
 
-// 5️⃣ Delete subscription
+// Delete subscription
 const deleteSubscription = async (req, res) => {
   try {
     const subscription = await Subscription.findById(req.params.id);
@@ -100,7 +100,7 @@ const deleteSubscription = async (req, res) => {
       return res.status(404).json({ message: "Subscription not found" });
     }
 
-    // ✅ Ownership check
+    // Ownership check
     if (subscription.userId.toString() !== req.user._id.toString()) {
       return res.status(403).json({ message: "Non autorisé" });
     }

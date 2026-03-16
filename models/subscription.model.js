@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const subscriptionSchema = new mongoose.Schema(
   {
-    name: {               // ← هاد السطر مهم يكون Object
-      type: String,// type لازم يكون String / Number / Boolean / ObjectId
+    name: {                
+      type: String,
       required: true,
       trim:true,
     },
