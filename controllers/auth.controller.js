@@ -2,23 +2,15 @@ const User = require("../models/user.model.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-//----------------------REGISTER CONTROLLER--------------------//
+//-----------REGISTER CONTROLLER add new utilisateur------------//
 const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-
-//---------------------verify si email existe-----------------//
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "Email already exists" });
-    }
-
-//------------hash password 9bal mankhazno f DB--------------//
+    
     const hashedPassword = await bcrypt.hash(password, 10);
 
 //------------------------create user-----------------------//
     const user = await User.create({
-      //user: modul dyl mongoose
       name,
       email,
       password: hashedPassword,
@@ -30,18 +22,9 @@ const register = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "1d" },
     );
-
-//------------------rad bi naja7 + token-------------------//
-    res.status(201).json({
-      message: "User registered successfully",
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
-      token,
-    });
+    res.status(201).json({message: "User registered successfully",
+      user: {id: user._id, name: user.name, email: user.email, role: user.role,}
+      ,token,});
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -51,12 +34,11 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-//=================n9albo 3la user b email================//
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: "Invalid Email" });
     }
-//====================n9arno password=====================//
+
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(400).json({ message: "Invalid Password" });
@@ -67,23 +49,16 @@ const login = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "1d" },
     );
-//=================send response================//
     res.status(200).json({
       message: "Login successful",
       token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
+      user: {id: user._id, name: user.name, email: user.email, role: user.role,},
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-//-----------------EXPORT CONTROLLERS------------------//
 module.exports = { register, login };
 
     //bcrypt : tachefir l pass (more secirise)

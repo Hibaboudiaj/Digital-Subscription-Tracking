@@ -5,15 +5,14 @@ const CreateSubscription = async (req, res) => {
   try {
     const { name, price, billingCycle } = req.body;
 
-    //Validation 
     if (!name || !price || !billingCycle) {
-      return res.status(400).json({ message: "الحقول name, price و billingCycle مطلوبة" });
+      return res.status(400).json({ message: "remplir tous les champs" });
     }
     if (price <= 0) {
-      return res.status(400).json({ message: "Price يجب أن يكون أكبر من 0" });
+      return res.status(400).json({ message: "must be great than 0" });
     }
     if (!["monthly", "yearly"].includes(billingCycle)) {
-      return res.status(400).json({ message: "billingCycle يجب أن يكون monthly أو yearly" });
+      return res.status(400).json({ message: "billingCycle must be monthly or yearly" });
     }
 
     const subscription = await Subscription.create({
@@ -24,6 +23,7 @@ const CreateSubscription = async (req, res) => {
     });
 
     res.status(201).json({ subscription });
+
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -75,10 +75,10 @@ const UpdateSubscription = async (req, res) => {
 
     // Validation 
     if (price !== undefined && price <= 0) {
-      return res.status(400).json({ message: "Price يجب أن يكون أكبر من 0" });
+      return res.status(400).json({ message: "must be great than 0" });
     }
     if (billingCycle && !["monthly", "yearly"].includes(billingCycle)) {
-      return res.status(400).json({ message: "billingCycle يجب أن يكون monthly أو yearly" });
+      return res.status(400).json({ message: "billingCycle must be monthly or yearly" });
     }
 
     subscription.name = name || subscription.name;
@@ -105,7 +105,7 @@ const deleteSubscription = async (req, res) => {
       return res.status(403).json({ message: "Non autorisé" });
     }
 
-    await subscription.remove();
+    await Subscription.findByIdAndDelete(subscription._id);
     res.status(200).json({ message: "Subscription deleted" });
   } catch (error) {
     res.status(400).json({ message: error.message });
